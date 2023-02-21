@@ -4,9 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,21 +19,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.Debug.getLocation
+
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.where.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
-class MainActivity : AppCompatActivity() {
+
+
+class MainActivity : AppCompatActivity() , LocationListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     //posizione
     private lateinit var locationManager: LocationManager
-    private lateinit var tvGpsLocationManager: TextView
-    private val locationPermissionCode=2
+    private lateinit var tvGpsLocation: TextView
+    private val locationPermissionCode = 2
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +61,8 @@ class MainActivity : AppCompatActivity() {
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
     }
-    fun onLocationChanged(location: Location) {
-        tvGpsLocation = findViewById(R.id.textView)
+    override fun onLocationChanged(location: Location) {
+        tvGpsLocation = findViewById(R.id.textview_first)
         tvGpsLocation.text = "Latitude: " + location.latitude + " , Longitude: " + location.longitude
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -71,9 +74,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
 
 
 
