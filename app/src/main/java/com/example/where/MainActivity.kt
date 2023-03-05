@@ -3,28 +3,24 @@ package com.example.where
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.location.*
 import android.os.Bundle
-
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.where.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
-
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() , LocationListener {
@@ -34,6 +30,7 @@ class MainActivity : AppCompatActivity() , LocationListener {
     //posizione
     private lateinit var locationManager: LocationManager
     private lateinit var tvGpsLocation: TextView
+    private lateinit var nameLocation:TextView
     private val locationPermissionCode = 2
 
 
@@ -62,8 +59,11 @@ class MainActivity : AppCompatActivity() , LocationListener {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
     }
     override fun onLocationChanged(location: Location) {
-        tvGpsLocation = findViewById(R.id.textview_first)
-        tvGpsLocation.text = "Latitude: " + location.latitude + " , Longitude: " + location.longitude
+        tvGpsLocation = findViewById(R.id.textview_lat_long)
+        nameLocation = findViewById(R.id.textview_city)
+        tvGpsLocation.text = "Latitude: " + location.latitude + " 7n,\n Longitude: " + location.longitude
+
+        nameLocation.text = "Citta: "+getCityNameWithLocation(location.latitude,location.longitude)
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -129,6 +129,19 @@ class MainActivity : AppCompatActivity() , LocationListener {
       //              .setAction("Action", null).show()
       //  }
     }
+
+    private fun getCityNameWithLocation(lat: Double, long: Double): String {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(lat, long, 1)
+        //val cityName = addresses!![0].getAddressLine(0)
+        val address = addresses!![0].getAddressLine(0)  //via
+        val comune = addresses!![0].locality   //comune
+        val regione = addresses!![0].adminArea  //regione
+        val country = addresses!![0].countryName // stato
+        val position= "Address: $address \nComune: $comune \nRegione: $regione \nStato: $country"
+        return position
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

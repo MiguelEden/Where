@@ -8,6 +8,8 @@
     <string name="get_position">Get Position</string>
     <string name="previous">Previous</string>
 
-    <string name="string_position">Schiaccia il bottone per posizione attuale</string>
+    <string name="string_lat_long">Latitude and Longitude:</string>
+    <string name="string_city">City:</string>
+
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

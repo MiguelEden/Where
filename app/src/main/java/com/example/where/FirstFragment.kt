@@ -36,7 +36,6 @@ class FirstFragment : Fragment() {
         binding.buttonGetPosition.setOnClickListener {
             //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 
-
             Toast.makeText(this.context,"Prova ",Toast.LENGTH_SHORT).show()
         }
     }
