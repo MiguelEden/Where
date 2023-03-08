@@ -134,11 +134,17 @@ class MainActivity : AppCompatActivity() , LocationListener {
         val geocoder = Geocoder(this, Locale.getDefault())
         val addresses = geocoder.getFromLocation(lat, long, 1)
         //val cityName = addresses!![0].getAddressLine(0)
-        val address = addresses!![0].getAddressLine(0)  //via
+
+        val cap = addresses!![0].postalCode   //cap
         val comune = addresses!![0].locality   //comune
         val regione = addresses!![0].adminArea  //regione
         val country = addresses!![0].countryName // stato
-        val position= "Address: $address \nComune: $comune \nRegione: $regione \nStato: $country"
+        val provincia = addresses!![0].subAdminArea  //provincia
+        val via = addresses!![0].thoroughfare    //indirizzo
+        val numeroVia = addresses!![0].subThoroughfare
+
+        val position= " \nStato: $country \nRegione: $regione " +
+                "\nProvincia: $provincia \nCap: $cap  \nComune: $comune \nVia: $via $numeroVia  "
         return position
     }
 
